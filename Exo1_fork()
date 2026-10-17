@@ -1,4 +1,5 @@
-//Programme pour la réalisation d'un programme qui utilise deux processus (père et fils) pour le calcul en parallèle de la somme et le produit des 10 premiers nombres entiers.
+/*Programme pour la réalisation d'un programme qui utilise deux processus (père et fils) pour le calcul en parallèle de la somme et
+le produit des 10 premiers nombres entiers*/
 
 #include <stdio.h>
 #include <unistd.h>
