@@ -1,0 +1,14 @@
+#include <stdio.h>
+#include <unistd.h>
+int main(){
+printf("Hello world!\n"); //Instruction exécutée par le processus père uniquement
+fork (); //Creation d'un nouveau processus fils à partir du père 
+printf("Bonjour!\n"); //Instruction exécutée par les 2 processus (père et fils)
+}
+
+
+
+/*AFFICHAGE:
+Hello world!
+Bonjour!
+Bonjour!
