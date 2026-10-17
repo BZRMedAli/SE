@@ -1,0 +1,23 @@
+#include <stdio.h>
+#include <unistd.h>
+#include <stdlib.h>
+{
+int somme=0;
+int produit=1;
+int pid=0;
+printf("Hello World \n");  //Ce message sera affiché par le processus père uniquement
+pid = fork();  //Cette instruction est exécutée par le processus père, et crée un processus fils identique au père
+if (pid>0){
+//on est dans le processus père qui s'occupera de la somme
+for (int i=0;i<10;i++){
+somme=somme+i;
+}
+printf("La somme des 10 premiers nombres entiers est:%d\n",somme);
+}else {
+//On est dans le processus fils qui s'occupera de la multiplication
+for (int i=1;i<10;i++){
+produit=produit*i;
+}
+printf("Le produit des 10 premiers nombres entiers est:%d\n",produit); 
+}
+}
