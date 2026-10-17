@@ -1,9 +1,9 @@
-#include <stdio.h>
+#include <stdio.h> 
 #include <unistd.h>
 int main(){
 printf("Hello world!\n"); //Instruction exécutée par le processus père uniquement
-fork (); //Creation d'un nouveau processus fils à partir du père 
-printf("Bonjour!\n"); //Instruction exécutée par les 2 processus (père et fils)
+fork(); //Création d'un nouveau processus fils à partir du processus père, cette création se fait par clônage du processus fils
+printf("Bonjour!\n"); //Instruction exécutée par les 2 processus (père et fils) gràce au duplicage du processus
 }
 
 
@@ -12,3 +12,15 @@ printf("Bonjour!\n"); //Instruction exécutée par les 2 processus (père et fil
 Hello world!
 Bonjour!
 Bonjour!
+*/
+
+
+#include <unistd.h>
+#include <sys/types.h>  //Pour définir les types de base du système
+#include <stdio.h>
+#include <sys/wait.h>  //Pour déclarer les fonctions et macros d'attente des processus 
+int main()
+{
+fork();  //Créer un nouveau processus fils à partir du père
+printf("Hello World\n"); //Affichage du message Hello World, il sera affiché par les deux processus (père et fils) grâce au duplicage du processus
+}
