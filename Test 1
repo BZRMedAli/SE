@@ -24,3 +24,9 @@ int main()
 fork();  //Créer un nouveau processus fils à partir du père
 printf("Hello World\n"); //Affichage du message Hello World, il sera affiché par les deux processus (père et fils) grâce au duplicage du processus
 }
+
+
+/*AFFICHAGE:
+Hello World
+Hello World
+*/
