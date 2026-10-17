@@ -1,1 +1,2 @@
-# SE
+# Systèmes d'exploitation:
+Réalisation des programmes SE
