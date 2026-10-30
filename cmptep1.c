@@ -7,26 +7,26 @@
 
 
 int main(){
-    int* compteur;
-    key_t cle = 34210;
+    int* counter;
+    key_t key = 34210;
     int segmentId = shmget(cle, sizeof(int),0666|IPC_CREAT);
 
     if (segmentId == -1) {
         perror("Error shmget");
         exit(1);
     }
-    compteur = (int*)shmat(segmentId,0,0);
-    if (compteur == (void *) -1) {
+    counter = (int*)shmat(segmentId,0,0);
+    if (counter == (void *) -1) {
         perror("Error shmat");
         exit(1);
     }
-    *compteur = 0;
-    while(*compteur<100){
-        (*compteur)++;
-        printf("%d\n",*compteur);
+    *counter = 0;
+    while(*counter<100){
+        (*counter)++;
+        printf("%d\n",*counter);
         sleep(1); // in seconds
     }
-    shmdt(compteur);
+    shmdt(counter);
     shmctl(segmentId,IPC_RMID, NULL);
 
 }
