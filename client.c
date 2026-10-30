@@ -15,7 +15,7 @@ int main(){
     message msg;  
 
     //Define an access key for the queue
-    key_t cle = 1234;  //Simple forme
+    key_t key = 1234;  //Simple forme
 
     // We can try also
     // FILE *f = fopen(" My file", "w"); 
@@ -23,7 +23,7 @@ int main(){
     // key_t cle = ftok(“my file”, 100); 
 
     //3. Create the queue (or recuperate his reference if the queue is already exist in the system)
-    int fileId = msgget(cle,0666|IPC_CREAT);
+    int fileId = msgget(key,0666|IPC_CREAT);
     while(1){
         printf("give two numbers\n");
         scanf("%d %d",&msg.x,&msg.y);
