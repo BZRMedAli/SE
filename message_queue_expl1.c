@@ -18,18 +18,23 @@ int main(){
   int x;
   int y;
   message msg;
-  key_t key;
-  int msgid;
-  key = ftok("File 1", 100);
-  msgid = msgget(key, 0666|IPC_CREAT);
-    printf("Give 2 integers :");
-    scanf("%d%d",&x,&y);
-    msg.x=x;
-    msg.y=y;
-    msg.type=1;
-  msgsnd(msgid, (message*)&msg, sizeof(msg) -4, 0); // Here 4 is the size of long who is 4 oct (32 bits)
-  msgctl (msgid, IPC_RMID, 0);  // Destroy the message queue to save system resources
+  key_t key = ftok ("File 1", 100);
+  if (key == -1) {
+    perror ("Error ftok");
+    exit (1);}
+  int msgid = msgget (key, 0666|IPC_CREAT);
+  if (msgid ==-1){
+    perror ("Error msgget");
+    exit (1);
   }
+    printf("Give 2 integers :");
+    scanf("%d%d",&msg.x,&msg.y);
+  msg.type=1;
+  if ( msgsnd(msgid, &msg, sizeof(msg) - sizeof (long), 0)== -1) {
+    perror ("Error in msgsnd");
+    exit (1);
+  } // Here 4 is the size of long who is 4 oct (32 bits)
+  }  //The server is the one to destroy the message queue and not the client
 
 // Server's program
 #include <stdio.h>
@@ -46,13 +51,17 @@ int y;
 
 int main() {
   int x,y,z;
-  key_t key;
-  int msgid;
+  key_t key = ftok ("File 1", 100);
+  if (key ==-1) {
+    perror("Error in ftok");
+  exit (1);}
+  int msgid= msgget (key, 0666|IPC_CREAT);
+  if (msgid ==-1) {
+    perror ("Error in msgget");
+      exit (1);
+  }
   message msg;
-
-  key = ftok("File 1", 100);
-  msgid = msgget (key, 0666|IPC_CREAT);
-  msgrcv(msgid,(message*)&msg, sizeof(msg) -4, 1, 0);
+  msgrcv(msgid,&msg, sizeof(msg) - sizeof(long), 1, 0);
   x = msg.x;
   y = msg.y;
   z= x + y;
