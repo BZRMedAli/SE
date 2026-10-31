@@ -1,26 +1,32 @@
-/*Programme pour la réalisation d'un programme qui utilise deux processus (père et fils) pour le calcul en parallèle de la somme et
-le produit des 10 premiers nombres entiers*/
+/*A program for the use of two process (parent + child) to execute in parallelisme by the SE, the objectif is to use the parent for the sum of 10 first
+integer numbers, and the child for the product of the 10 first integer numbers*/
 
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
+#include <sys/wait.h>
+int main()
 {
-int somme=0;
-int produit=1;
-int pid=0;
-printf("Hello World \n");  //Ce message sera affiché par le processus père uniquement
-pid = fork();  //Cette instruction est exécutée par le processus père, et crée un processus fils identique au père
-if (pid>0){
-//on est dans le processus père qui s'occupera de la somme
+int n=1;
+pid_t pid;
+printf("Hello World \n");  
+pid = fork();  
+if (pid == -1){
+perror("Error during fork");
+return 1;
+}else if (pid>0){
+// The process parent
 for (int i=0;i<10;i++){
-somme=somme+i;
+n= n + i;
 }
-printf("La somme des 10 premiers nombres entiers est:%d\n",somme);
+printf("The sum is:%d\n",n);
+wait(NULL); //Waiting the process child, it is used by the parent only
 }else {
-//On est dans le processus fils qui s'occupera de la multiplication
+// The process child
 for (int i=1;i<10;i++){
-produit=produit*i;
+n=n*i;
 }
-printf("Le produit des 10 premiers nombres entiers est:%d\n",produit); 
+printf("The product is:%d\n",n); 
 }
+return 0;
 }
