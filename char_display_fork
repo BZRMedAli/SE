@@ -1,0 +1,25 @@
+#include <stdio.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <sys/wait.h>
+
+int main() {
+setbuf (stdout, NULL);
+pid_t pid = fork();
+switch (pid) {
+case -1:
+perror ("Error");
+exit (1);
+case 0: //The child
+for (c='a'; c<='z'; c++){
+  printf("%c",c);
+}
+exit (0);
+default: // The parent (0<pid) 
+for (c='A'; c<='Z'; c++){
+printf("%c",c);
+}
+  wait (NULL);
+}
+return 0;
+}
