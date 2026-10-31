@@ -23,8 +23,8 @@ printf("%c",c);
 return 0;
 }
 
-//We can adjust the program to ensure that the small letters are displayed before the capital ones using the wait function in the parent process
-//The program becomes 
+// We can adjust the program to ensure that the small letters are displayed before the capital ones using the wait function in the parent process
+// The C program is: 
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -34,7 +34,7 @@ int main() {
   setbuf(stdout, NULL);
   pid_t pid=fork();
   if (pid < 0){
-    perror("Erreur");
+    perror("Error");
     exit(1);
   }
   else if (pid==0){
@@ -52,3 +52,52 @@ int main() {
   }
   return 0;  
   }
+
+// We can adjust the program in this time to ensure displaying capital letters before small letters by using pipe
+// The C program is:
+
+#include <stdio.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <ctype.h>
+#include <sys/wait.h>
+
+int main(){
+
+  char vchar[26];
+  int i=0;
+  int ped[2];
+  setbuf(stdout, NULL);
+  if (pipe(ped) <0) {
+    perror("Error");
+    exit (1);
+  }else // Here we have pipe greater then or equal to 0 
+  {
+    pid_t pid=fork();
+    if (pid <0){
+      perror ("Error");
+      exit(1);
+    }else if (0<pid){ //The parent process
+      close(ped[0]);
+      for (char c='A'; c<='Z'; c++){
+        vchar[i] = c;
+        i++;
+        printf("%c",c);
+      }
+      write(ped[1],vchar,sizeof(vchar));
+      close(ped[1]);
+      wait(NULL);
+    }else // The child process
+    {
+      close(ped[1]);
+      read(ped[0],vchar,sizeof(vchar));
+      close(ped[0]);
+      for (int j=0;j<26;j++){
+        printf("%c",tolower(vchar[j]));
+      }
+      exit(0);
+    }
+  }
+  printf("\n");
+  return 0;
+}
