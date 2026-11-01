@@ -57,4 +57,4 @@ int main() {
     return 0;
 }
 
-// If we have to use 2 process
+// If we have to use 2 process we have to create 2 c files differents joined by ftok (process1.c) and (process2.c)
